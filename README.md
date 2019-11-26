@@ -11,8 +11,8 @@ Code to snag for commonly used tags / js widgets with appropriate aria labels/ta
 ### Example:
 
 ```
-<svg role="img" aria-labelledby="svgTitle-0 svgDesc-0"> <!-- index-based ids for looped/mapped exports -->
-<g><title id="svgTitle-0">Halo's a Pretty Cool Guy</title> <!-- make sure 'title' is the first child of the parent element -->
-<desc id="svgDesc-0">He kills aliens and doesn't afraid of anything.</desc></g>
+<svg role="img" aria-labelledby="svgTitle-(variableName)-0 svgDesc-(variableName)-0"> <!-- index-based ids for looped/mapped exports -->
+<g><title id="svgTitle-(variableName)-0">Halo's a Pretty Cool Guy</title> <!-- make sure 'title' is the first child of the parent element -->
+<desc id="svgDesc-(variableName)-0">He kills aliens and doesn't afraid of anything.</desc></g>
 </svg>
 ```
