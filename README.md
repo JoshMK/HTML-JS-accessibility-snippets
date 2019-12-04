@@ -6,10 +6,10 @@ code to snag for commonly used tags / js widgets with appropriate aria labels/ta
 
 ### Notes
 
-- Use a semantic element for the burger (i.e. <button> - it has inbuilt keyboard functionality which is dope.)
+- Use a semantic element for the burger (i.e. `<button>` - it has inbuilt keyboard functionality which is dope.)
 - Make sure the text "menu" is included within the semantic element to give it meaning to SRs (it can be concealed visually for non-SR users with CSS.)
 - If the hamburger menu uses any decorative symbols ('x', '-', etc.), make sure to set aria-hidden="true" for them (SR's will try to read them otherwise.)
-- No consensus on whether or not to use 'role=navigation' within <nav> elements. MDN says using <nav> will automatically communicate its role (preventing redundant readings), yet other sources such as the W3 wiki say to explicitly communicate the role for tech that relies on aria labels or doesn't support HTML5 (it's a wiki though, so it's unreliable.) A lot of articles advocating <nav role='navigation'> are 5-6 years old, so it's unclear what SR/accessibility technology support for HTML5 is these days. Going w/ the MDN right now because I think fiery foxes are cute (but I'll gladly add it back if my SR research determines it's necessary.)
+- No consensus on whether or not to use `"role=navigation"` within `<nav>` elements. MDN says using `<nav>` will automatically communicate its role (preventing redundant readings), yet other sources such as the W3 wiki say to explicitly communicate the role for tech that relies on aria labels and doesn't support HTML5 (it's a wiki though, so it's unreliable.) A lot of articles advocating `<nav role="navigation">` are 5-6 years old, so it's unclear what SR/accessibility technology support for HTML5 is these days. Going w/ the MDN right now because I think fiery foxes are cute (but I'll gladly add it back if my SR research determines it's necessary.)
 
 ### References
 
