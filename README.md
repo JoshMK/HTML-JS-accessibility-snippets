@@ -62,3 +62,50 @@ toggleMenu.addEventListener('click', () => {
 <desc id="svgDesc-(variableName)-0">He kills aliens and doesn't afraid of anything.</desc></g>
 </svg>
 ```
+
+## Skip to Main Content Link
+
+### Notes
+
+- Use WhatInput to differentiate between mouse/keyboard interactions for outline styles
+- setting 'tabindex=-1' on the 'main' element is supposed to correct a bug preventing it from being focused wihout a tabindex attribute in older IE versions
+
+# References
+
+- [https://stackoverflow.com/questions/11848351/accessibility-skip-navigation-doesnt-work]
+- [https://www.jimthatcher.com/skipnav.htm] (linked from [https://www.w3.org/TR/WCAG20-TECHS/G1.html])
+
+### Example:
+
+#### HTML
+
+```
+<a className="app__skipNavLink" href="#main">Skip to main content</a>
+<main id="main" tabindex="-1">{site content}</main>
+```
+
+#### CSS (WhatInput)
+
+```
+[data-whatintent="mouse"] *:focus {
+	outline: none;
+}
+
+[data-whatintent="keyboard"] *:focus {
+	outline: {outline styles};
+}
+```
+
+#### CSS (Skip Navigation Link)
+
+```
+.app__skipNavLink {
+  z-index: -999;
+  opacity: 0;
+}
+
+.app__skipNavLink:focus {
+  opacity: 1;
+  z-index: 999;
+}
+```
