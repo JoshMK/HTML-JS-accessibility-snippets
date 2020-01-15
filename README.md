@@ -70,7 +70,7 @@ toggleMenu.addEventListener('click', () => {
 - Use WhatInput to differentiate between mouse/keyboard interactions for outline styles
 - setting 'tabindex=-1' on the 'main' element is supposed to correct a bug preventing it from being focused wihout a tabindex attribute in older IE versions
 
-# References
+### References
 
 - [https://stackoverflow.com/questions/11848351/accessibility-skip-navigation-doesnt-work]
 - [https://www.jimthatcher.com/skipnav.htm] (linked from [https://www.w3.org/TR/WCAG20-TECHS/G1.html])
