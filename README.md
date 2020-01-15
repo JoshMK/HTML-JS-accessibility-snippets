@@ -67,8 +67,8 @@ toggleMenu.addEventListener('click', () => {
 
 ### Notes
 
-- Use WhatInput to differentiate between mouse/keyboard interactions for outline styles
-- setting 'tabindex=-1' on the 'main' element is supposed to correct a bug preventing it from being focused wihout a tabindex attribute in older IE versions
+- Use WhatInput to differentiate between mouse/keyboard interactions for the skip nav link's outline styles.
+- setting 'tabindex=-1' on the 'main' element is supposed to correct a bug preventing it from being focused without a tabindex attribute in older IE versions.
 
 ### References
 
@@ -84,19 +84,7 @@ toggleMenu.addEventListener('click', () => {
 <main id="main" tabindex="-1">{site content}</main>
 ```
 
-#### CSS (WhatInput)
-
-```
-[data-whatintent="mouse"] *:focus {
-	outline: none;
-}
-
-[data-whatintent="keyboard"] *:focus {
-	outline: {outline styles};
-}
-```
-
-#### CSS (Skip Navigation Link)
+#### CSS
 
 ```
 .app__skipNavLink {
