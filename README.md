@@ -10,6 +10,8 @@ Code to snag for commonly used html chunks and js widgets with appropriate aria 
 - Wrap grouped controls with `<legend>` and `<fieldset>` when a higher level description (i.e., the legend) is necessary. Contextually obvious tags (i.e., `<select>`) don't need to be wrapped.
 - `<input type='submit'>` and `<input type='reset'>` - always supply a `value=` attribute (screen readers read these aloud for context).
 - `<button>` - always supply text between the opening/closing `</button>` tag.
+- use `<label>` for better accessibility/support instead of the `placeholder` attribute if possible.
+- for the `placeholder` attribute, make sure its text contrast is adjusted for WCAG using custom CSS (the default values are noncompliant - see correcting code snippet below)
 
 ### References
 
@@ -92,6 +94,30 @@ Code to snag for commonly used html chunks and js widgets with appropriate aria 
 	</optgroup>
 	[…]
 </select>
+```
+
+#### CSS - Example Placeholder Color Contrast Adjusted for a White Background
+
+```
+::-webkit-input-placeholder {
+	 color: #767676;
+	 opacity: 1;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+	 color: #767676;
+	 opacity: 1;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+	 color: #767676;
+	 opacity: 1;
+}
+
+:-ms-input-placeholder {
+	 color: #767676;
+	 opacity: 1;
+}
 ```
 
 ## Hamburger Menu
