@@ -1,6 +1,98 @@
 # HTML-JS-accessibility-snippets
 
-code to snag for commonly used tags / js widgets with appropriate aria labels/tags/functionality
+Code to snag for commonly used html chunks and js widgets with appropriate aria labels, tags, and functionality.
+
+## Forms
+
+### Notes
+
+- Use a `<label for={name}>` tag for each `<input id="{name}">` field
+- Wrap grouped controls with `<legend>` and `<fieldset>` when a higher level description (i.e., the legend) is necessary. Contextually obvious tags (i.e., `<select>`) don't need to be wrapped.
+- `<input type='submit'>` and `<input type='reset'>` - always supply a `value=` attribute (screen readers read these aloud for context).
+- `<button>` - always supply text between the opening/closing `</button>` tag.
+
+### References
+
+- [https://webaim.org/techniques/forms/controls]
+- [https://www.w3.org/WAI/tutorials/forms/labels/]
+
+### Examples:
+
+#### HTML - Standalone Label Examples
+
+```
+<label for="firstname">First name:</label>
+<input type="text" name="firstname" id="firstname"><br>
+
+<input type="checkbox" name="subscribe" id="subscribe">
+<label for="subscribe">Subscribe to newsletter</label>
+```
+
+#### HTML - Standalone Button and Input Button Examples
+
+```
+<button type="submit">Submit</button>
+<button type="button">Cancel</button>
+
+<input type="submit" value="Submit">
+<input type="button" value="Cancel">
+```
+
+#### HTML - Related Inputs Grouped with Fieldset
+
+```
+<fieldset>
+<legend>Output format</legend>
+  <div>
+    <input type="radio" name="format" id="txt" value="txt" checked>
+    <label for="txt">Text file</label>
+  </div>
+  <div>
+    <input type="radio" name="format" id="csv" value="csv">
+    <label for="csv">CSV file</label>
+  </div>
+</fieldset>
+```
+
+#### HTML - Related Inputs Grouped with role="group", id, and aria-labelledby={id}
+
+```
+<div role="group" aria-labelledby="shipping_head">
+	<div id="shipping_head">Shipping Address:</div>
+	<div>
+		<label for="shipping_name">
+      <span class="visuallyhidden">Shipping </span>Name:
+    </label><br>
+		<input type="text" name="shipping_name" id="shipping_name">
+	</div>
+</div>
+<div role="group" aria-labelledby="billing_head">
+	<div id="billing_head">Billing Address:</div>
+	<div>
+		<label for="billing_name">
+      <span class="visuallyhidden">Billing </span>Name:
+    </label><br>
+		<input type="text" name="billing_name" id="billing_name">
+	</div>
+</div>
+```
+
+#### HTML - Select Grouped with optgroup and label attribute
+
+```
+<select>
+	<optgroup label="8.01 Physics I: Classical Mechanics">
+		<option value="8.01.1">Lecture 01: Powers of Ten</option>
+		<option value="8.01.2">Lecture 02: 1D Kinematics</option>
+		<option value="8.01.3">Lecture 03: Vectors</option>
+	</optgroup>
+	<optgroup label="8.02 Physics II: Electricity and Magnestism">
+		<option value="8.02.1">Lecture 01: What holds our world together?</option>
+		[…]
+	</optgroup>
+	[…]
+</select>
+```
 
 ## Hamburger Menu
 
@@ -57,9 +149,9 @@ toggleMenu.addEventListener('click', () => {
 ### Example:
 
 ```
-<svg role="img" aria-labelledby="svgTitle-(variableName)-0 svgDesc-(variableName)-0"> <!-- index-based ids for looped/mapped exports -->
-<g><title id="svgTitle-(variableName)-0">Halo's a Pretty Cool Guy</title> <!-- make sure 'title' is the first child of the parent element -->
-<desc id="svgDesc-(variableName)-0">He kills aliens and doesn't afraid of anything.</desc></g>
+<svg role="img" aria-labelledby="svgTitle-{variableName}-0 svgDesc-{variableName}-0"> <!-- index-based ids for looped/mapped exports -->
+<g><title id="svgTitle-{variableName}-0">Halo's a Pretty Cool Guy</title> <!-- make sure 'title' is the first child of the parent element -->
+<desc id="svgDesc-{variableName}-0">He kills aliens and doesn't afraid of anything.</desc></g>
 </svg>
 ```
 
@@ -67,8 +159,8 @@ toggleMenu.addEventListener('click', () => {
 
 ### Notes
 
-- Use WhatInput to differentiate between mouse/keyboard interactions for the skip nav link's outline styles.
-- setting 'tabindex=-1' on the 'main' element is supposed to correct a bug preventing it from being focused without a tabindex attribute in older IE versions.
+- In cases where this link needs to be hidden for design reasons, Use a library like WhatInput to hide it when not tab focused.
+- setting 'tabindex=-1' on the 'main' element (or whatever element it skips to) is supposed to correct a bug preventing it from being focused without a tabindex attribute in older IE versions.
 
 ### References
 
