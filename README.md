@@ -9,7 +9,12 @@ Code to snag for commonly used html chunks and js widgets with appropriate aria 
 - Use a `<label for={name}>` tag for each `<input id="{name}">` field
 - Wrap grouped controls with `<legend>` and `<fieldset>` when a higher level description (i.e., the legend) is necessary. Contextually obvious tags (i.e., `<select>`) don't need to be wrapped.
 - `<input type='submit'>` and `<input type='reset'>` - always supply a `value=` attribute (screen readers read these aloud for context).
-- `<button>` - always supply text between the opening/closing `</button>` tag or use a WCAG compliant substitute. These are: - <button id="text">Name</button> - <button id="al" aria-label="Name"></button> - <button id="alb" aria-labelledby="labeldiv"></button> - <button id="combo" aria-label="Aria Name">Name</button> - <button id="buttonTitle" title="Title"></button>
+- `<button>` - always supply text between the opening/closing `</button>` tag or use a WCAG compliant substitute. These are: 
+	- <button id="text">Name</button> 
+	- <button id="al" aria-label="Name"></button> 
+	- <button id="alb" aria-labelledby="labeldiv"></button> 
+	- <button id="combo" aria-label="Aria Name">Name</button> 
+	- <button id="buttonTitle" title="Title"></button>
 - use `<label>` for better accessibility/support instead of the `placeholder` attribute if possible.
 - for the `placeholder` attribute, make sure its text contrast is adjusted for WCAG using custom CSS (the default values are noncompliant - see correcting code snippet below)
 
