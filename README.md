@@ -2,6 +2,166 @@
 
 Code to snag for commonly used html chunks and js widgets with appropriate aria labels, tags, and functionality.
 
+## Accordions
+
+### Examples:
+
+#### HTML - accordion markup with necessary aria attributes
+
+```
+<html lang="en" charset="UTF-8">
+	<title>Accessible Accordion</title>
+	<head>
+		<link rel="stylesheet" href="accessible-accordion.css" />
+	</head>
+	<body>
+		<!-- widget code begins here -->
+		<div class="accessible-accordion">
+			<!-- replace h1 with appropriate nested heading level - see https://www.w3.org/WAI/tutorials/page-structure/headings/ -->
+			<h1 class="accessible-accordion__header">
+				<button
+					type="button"
+					class="accessible-accordion__trigger"
+					aria-expanded="false"
+					onclick="toggleTrigger(this)"
+				>
+					[ACCORDION BUTTON TEXT GOES HERE]
+				</button>
+			</h1>
+			<div class="accessible-accordion__panel" aria-hidden="true">
+				<p>[CONTENT GOES HERE]</p>
+				<img src="" alt />
+			</div>
+		</div>
+		<script src="accessible-accordion.js"></script>
+	</body>
+</html>
+```
+
+#### CSS - basic accordion styles
+
+```
+:root {
+	--aa-header-brd-col: #500000;
+	--aa-trigger-bg-col: #e8e8e8;
+	--aa-trigger-bg-col-hover: #f5f5f5;
+	--aa-trigger-bg-col-toggled: #929292;
+	--aa-trigger-txt-col: #500000;
+	--aa-trigger-toggled-txt-col: #f5f5f5;
+	--aa-arrow-col: #000;
+	--aa-arrow-toggled-col: #f5f5f5;
+}
+
+.accessible-accordion__header {
+	border: 1px solid var(--aa-header-brd-col);
+	margin-bottom: auto;
+}
+
+.accessible-accordion__panel {
+	padding: 0 0.5em;
+}
+
+.accessible-accordion__trigger {
+	position: relative;
+	cursor: pointer;
+	border-width: 0;
+	padding: 1em 2.75em 1em 1em;
+	width: 100%;
+	text-align: left;
+	background-color: var(--aa-trigger-bg-col);
+	color: var(--aa-trigger-txt-col);
+}
+
+.accessible-accordion__trigger:hover,
+.accessible-accordion__trigger:focus {
+	background-color: var(--aa-trigger-bg-col-hover);
+}
+
+.accessible-accordion__trigger:after {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	position: absolute;
+	background-color: transparent;
+	top: 1.25em;
+	right: 1em;
+	border-left: 0.5em solid transparent;
+	border-right: 0.5em solid transparent;
+	border-top: 0.625em solid var(--aa-arrow-col);
+	transform-origin: center center;
+	transform: rotate(0deg);
+}
+
+.accessible-accordion__trigger[aria-expanded="true"] {
+	color: var(--aa-trigger-toggled-txt-col);
+	background-color: var(--aa-trigger-bg-col-toggled);
+}
+
+.accessible-accordion__trigger[aria-expanded="true"]:after {
+	transform: rotate(180deg);
+	border-top-color: var(--aa-arrow-toggled-col);
+}
+
+.accessible-accordion__panel {
+	max-height: 0vh;
+	overflow: hidden;
+	opacity: 0;
+	visibility: hidden;
+	padding: 0;
+	transition: max-height 0.2s ease-in-out, padding-top 0.2s ease-in-out,
+		padding-bottom 0.2s ease-in-out, opacity 0.2s ease-in;
+}
+
+.accessible-accordion__panel[aria-hidden="false"] {
+	max-height: 100vh;
+	overflow: auto;
+	visibility: visible;
+	opacity: 1;
+	padding: 1em 0;
+}
+```
+
+#### JS - basic accordion javascript
+
+```
+//ES5 version
+
+//get all accordions in an array
+var accordions = [].slice.call(
+	document.querySelectorAll(".accessible-accordion")
+);
+
+//set ids for each accordion on page load
+accordions.forEach(function(accordion, i) {
+	accordion.children[0].children[0].setAttribute(
+		"aria-controls",
+		"accessible-accordion-panel-" + i
+	);
+	accordion.children[1].setAttribute("id", "accessible-accordion-panel-" + i);
+});
+
+//show/hide individual accordion panels
+function toggleTrigger(trigger) {
+	var panelExpanded = trigger.getAttribute("aria-expanded");
+	console.log(panelExpanded);
+	accordions.forEach(function(accordion, i) {
+		var panelHidden = panelExpanded === "false" ? "false" : "true";
+		accordion.children[1].setAttribute("aria-hidden", panelHidden);
+	});
+	if (panelExpanded === "false") {
+		trigger.setAttribute("aria-expanded", "true");
+	} else {
+		trigger.setAttribute("aria-expanded", "false");
+	}
+}
+
+```
+
+### References
+
+- [https://github.com/scottaohara/a11y_accordions]
+
 ## Forms
 
 ### Notes
