@@ -292,7 +292,7 @@ function toggleTrigger(trigger) {
 - Use a semantic element for the burger (i.e. `<button>` - it has inbuilt keyboard functionality which is dope.)
 - Make sure the text "menu" is included within the semantic element to give it meaning to SRs (it can be concealed visually for non-SR users with CSS.)
 - If the hamburger menu uses any decorative symbols ('x', '-', etc.), make sure to set aria-hidden="true" for them (SR's will try to read them otherwise.)
-- No consensus on whether or not to use `"role=navigation"` within `<nav>` elements. MDN says using `<nav>` will automatically communicate its role (preventing redundant readings), yet other sources such as the W3 wiki say to explicitly communicate the role for tech that relies on aria labels and doesn't support HTML5 (it's a wiki though, so it's unreliable.) A lot of articles advocating `<nav role="navigation">` are 5-6 years old, so it's unclear what SR/accessibility technology support for HTML5 is these days. Going w/ the MDN right now because I think fiery foxes are cute (but I'll gladly add it back if my SR research determines it's necessary.)
+- No consensus on whether or not to use `"role=navigation"` within `<nav>` elements. MDN says using `<nav>` will automatically communicate its role (preventing redundant readings), yet other sources such as the W3 wiki say to explicitly communicate the role for tech that relies on aria labels and doesn't support HTML5. A lot of articles advocating `<nav role="navigation">` are 5-6 years old, so it's unclear what SR/accessibility technology support for HTML5 is these days.
 
 ### Example:
 
@@ -345,6 +345,215 @@ toggleMenu.addEventListener('click', () => {
 
 - [https://www.w3.org/TR/SVG11/struct.html#DescriptionAndTitleElements]
 - [https://www.deque.com/blog/creating-accessible-svgs/]
+
+## Accessible Navigation
+
+### Example 1 - Using Javascript (ES5 Version)
+
+#### HTML
+
+```
+<div class="page">
+  <header role="banner" aria-label="Primary">
+    <nav role="navigation" aria-label="Primary" id="nav" class="nav">
+      <ul id="nav_inner" class="nav__list">
+        <li class="has-drop">
+          <a href="#!">
+            Drop Down
+          </a>
+          <ul class="nav__list__drop">
+            <li>
+              <a href="#!">
+                Item 1
+              </a>
+            </li>
+            <li>
+              <a href="#!">
+                Item 2
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#!">
+            Normal
+          </a>
+        </li>
+        <li class="has-drop">
+          <a href="#!">
+            Drop Down 2
+          </a>
+          <ul class="nav__list__drop">
+            <li>
+              <a href="#!">
+                Item 1 has a long name
+              </a>
+            </li>
+            <li>
+              <a href="#!">
+                Item 2
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</div>
+```
+
+#### CSS
+
+```
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: helvetica, arial, sans-serif;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul,
+nav ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  font-size: 1px;
+}
+
+.show-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.nav__list {
+  background: #fafafa;
+  border-bottom: 1px solid #444;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.nav__list > li {
+  display: inline-block;
+}
+
+.nav__list a {
+  display: block;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.nav__list a:hover,
+.nav__list a:focus {
+  background: #222;
+  color: #fff;
+}
+
+.has-drop {
+  position: relative;
+}
+
+.nav__list__drop {
+  left: 0;
+  margin: 0;
+  position: absolute;
+  text-align: left;
+  top: 100%;
+  opacity: 0;
+  transform: translateY(-20px);
+  height: 1px;
+  transition: transform .2s ease-in-out,
+              opacity .1s ease-out;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.nav__list__drop {
+  background: #fafafa;
+  border: 1px solid #444;
+  border-top: 0;
+  min-width: 100%;
+}
+
+.nav__list__drop a {
+  padding: 12px 20px;
+  white-space: nowrap;
+}
+
+.nav__list a:focus + .nav__list__drop,
+.has-drop:hover .nav__list__drop,
+.nav__list__drop.has-focus {
+  opacity: 1;
+  transform: translateY(0px);
+  height: auto;
+  z-index: 1;
+}
+
+.no-js .nav__list__drop {
+  display: none;
+}
+
+.no-js .has-drop:hover .nav__list__drop {
+  display: block;
+}
+
+```
+#### JavaScript
+
+```
+(function ( w, doc ) {
+  // Enable strict mode
+  "use strict";
+  // Local object for method references
+  var DropNav = {};
+  // Namespace it up yo
+  DropNav.ns = "Drop Navigation";
+  // the main event...err..function
+  DropNav.init = function () {
+    var hasDrop = doc.querySelectorAll('.has-drop'),
+      hasDropLinks = doc.querySelectorAll('.nav__list__drop a'),
+      hasDropCount = hasDrop.length,
+      hasDropLinksCount = hasDropLinks.length,
+      i;
+    if ( hasDropCount > 0 ) {
+      for ( i = 0; i < hasDropCount; i++ ) { // i++  =  i = i + 1 
+        var drop = hasDrop[i],
+          firstDropLink = drop.querySelectorAll('.nav__list__drop a')[0];
+        firstDropLink.innerHTML = ' <span class="sr-only">Sub menu, </span>' + firstDropLink.innerHTML; //*
+      }
+      for ( i = 0; i < hasDropLinksCount; i++ ) {
+        var dropLinks = hasDropLinks[i];
+        dropLinks.addEventListener('focus', function ( e ) {
+          this.parentNode.parentNode.classList.add('has-focus');
+        });
+        dropLinks.addEventListener('blur', function ( e ) {
+          this.parentNode.parentNode.classList.remove('has-focus');
+        });
+      }
+    }
+  };
+  DropNav.init();
+})( this, this.document );
+```
+
+### References
+
+- [https://www.scottohara.me/blog/2017/05/14/focus-within.html]
+- [https://codepen.io/scottohara/pen/pbmpyB]
 
 ## Skip to Main Content Link
 
